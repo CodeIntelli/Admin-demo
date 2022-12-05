@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
 import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
 // mock
 import account from '../../../_mock/account';
 // hooks
@@ -14,6 +15,7 @@ import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
 //
 import navConfig from './config';
+import { loadUser } from '../../../redux/Actions/userAction';
 
 // ----------------------------------------------------------------------
 
@@ -35,6 +37,8 @@ Nav.propTypes = {
 };
 
 export default function Nav({ openNav, onCloseNav }) {
+  const { loading } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const { pathname } = useLocation();
 
   const isDesktop = useResponsive('up', 'lg');
@@ -45,6 +49,9 @@ export default function Nav({ openNav, onCloseNav }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
+  useEffect(() => {
+    dispatch(loadUser());
+  }, []);
 
   const renderContent = (
     <Scrollbar
@@ -52,6 +59,7 @@ export default function Nav({ openNav, onCloseNav }) {
         height: 1,
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
       }}
+      style={{ display: loading && loading ? 'none' : 'flex' }}
     >
       <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
         <Logo />
@@ -112,6 +120,7 @@ export default function Nav({ openNav, onCloseNav }) {
         flexShrink: { lg: 0 },
         width: { lg: NAV_WIDTH },
       }}
+      style={{ display: loading && loading ? 'none' : 'flex' }}
     >
       {isDesktop ? (
         <Drawer
@@ -124,6 +133,7 @@ export default function Nav({ openNav, onCloseNav }) {
               borderRightStyle: 'dashed',
             },
           }}
+          style={{ display: loading && loading ? 'none' : 'flex' }}
         >
           {renderContent}
         </Drawer>

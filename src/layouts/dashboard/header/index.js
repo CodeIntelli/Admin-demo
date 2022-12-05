@@ -1,6 +1,8 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 // @mui
 import { styled } from '@mui/material/styles';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
 // utils
 import { bgBlur } from '../../../utils/cssStyles';
@@ -11,6 +13,7 @@ import Searchbar from './Searchbar';
 import AccountPopover from './AccountPopover';
 import LanguagePopover from './LanguagePopover';
 import NotificationsPopover from './NotificationsPopover';
+import { loadUser } from '../../../redux/Actions/userAction';
 
 // ----------------------------------------------------------------------
 
@@ -43,9 +46,15 @@ Header.propTypes = {
 };
 
 export default function Header({ onOpenNav }) {
+  const { loading } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(loadUser());
+  }, []);
+
   return (
     <StyledRoot>
-      <StyledToolbar>
+      <StyledToolbar style={{ display: loading && loading ? 'none' : 'flex' }}>
         <IconButton
           onClick={onOpenNav}
           sx={{
