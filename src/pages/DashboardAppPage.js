@@ -22,7 +22,7 @@ import {
   AppConversionRates,
 } from '../sections/@dashboard/app';
 
-import { clearErrors } from '../redux/Actions/userAction';
+import { clearErrors, loadUser } from '../redux/Actions/userAction';
 import store from '../redux/store';
 
 export default function DashboardAppPage({ location }) {
@@ -35,40 +35,10 @@ export default function DashboardAppPage({ location }) {
       console.log(error);
       dispatch(clearErrors());
     }
-    // store.dispatch(loadUser());
+    store.dispatch(loadUser());
     // loadUser();
   }, [dispatch]);
 
-  useEffect(() => {
-    loadUser();
-  }, []);
-
-  const loadUser = async () => {
-    try {
-      // const isUserAuthenticated = await axios.get();
-      const cookieData = Cookies.get('token');
-      console.log('🤩 ~ file: DashboardAppPage.js:50 ~ loadUser ~ cookieData', cookieData);
-      if (!cookieData) {
-        Cookies.set('token', '');
-        navigate('/login', { replace: true });
-      }
-      const { data } = await axios.get(`https://ecom.tutorialstaging.tech/api/v1/profile`, {
-        headers: {
-          authorization: `Bearer ${cookieData}`,
-        },
-      });
-      if (data && data.status === true) {
-        data.isAuthenticated = true;
-      } else {
-        data.isAuthenticated = false;
-      }
-
-      console.log('🤩 ~ file: DashboardAppPage.js:57 ~ loadUser ~ data', data);
-      console.log(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
   const theme = useTheme();
   const defaultOptions = {
     loop: true,

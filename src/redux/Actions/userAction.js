@@ -229,6 +229,7 @@ export const getUserDetails = (id) => async (dispatch) => {
     };
     const { data } = await axios.get(`https://ecom.tutorialstaging.tech/api/v1/admin/user/${id}`, config);
 
+    console.log('🚀 ~ file: userAction.js:232 ~ getUserDetails ~ data', data);
     dispatch({ type: ADMIN_USER_DETAIL_SUCCESS, payload: data.user });
   } catch (error) {
     dispatch({

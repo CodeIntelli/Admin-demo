@@ -50,18 +50,20 @@ const StyledContent = styled('div')(({ theme }) => ({
 export default function LoginPage({ location }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { error, loading, isAuthenticated } = useSelector((state) => state.user);
-  const redirect = location?.search ? location?.search?.split('=')[1] : '/dashboard';
-  useEffect(() => {
-    if (error) {
-      // alert.error(error);
-      dispatch(clearErrors());
-    }
+  // const { error, loading, isAuthenticated } = useSelector((state) => state.user);
+  // const redirect = location?.search ? location?.search?.split('=')[1] : '/dashboard';
+  // useEffect(() => {
+  //   if (error) {
+  //     // alert.error(error);
+  //     dispatch(clearErrors());
+  //   }
 
-    if (isAuthenticated) {
-      navigate(redirect);
-    }
-  }, [dispatch, isAuthenticated, redirect]);
+  //   if (!loading) {
+  //     if (isAuthenticated) {
+  //       navigate(redirect);
+  //     }
+  //   }
+  // }, [dispatch, isAuthenticated, redirect]);
   const mdUp = useResponsive('up', 'md');
   const defaultOptions = {
     loop: true,
@@ -74,7 +76,7 @@ export default function LoginPage({ location }) {
   return (
     <>
       <Helmet>
-        <title> Login | Key CMS Accounting Admin Panel </title>
+        <title> Login </title>
       </Helmet>
 
       <StyledRoot>

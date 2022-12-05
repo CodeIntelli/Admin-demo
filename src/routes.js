@@ -20,9 +20,25 @@ export default function Router() {
       children: [
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
-        { path: 'user', element: <UserPage /> },
-        { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
+      ],
+    },
+    {
+      path: '/user',
+      element: <DashboardLayout />,
+      children: [
+        { element: <Navigate to="/user/list" replace />, index: true },
+        { path: 'list', element: <UserPage /> },
+        { path: 'profile', element: <UserPage /> },
+      ],
+    },
+    {
+      path: '/blog',
+      element: <DashboardLayout />,
+      children: [
+        { element: <Navigate to="/blog/list" replace />, index: true },
+        { path: 'list', element: <BlogPage /> },
+        { path: 'profile', element: <UserPage /> },
       ],
     },
     {

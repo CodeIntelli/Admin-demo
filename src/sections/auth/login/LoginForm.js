@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { useDispatch } from 'react-redux';
-import { login } from '../../../redux/Actions/userAction';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadUser, login } from '../../../redux/Actions/userAction';
 import Iconify from '../../../components/iconify';
 
 export default function LoginForm() {
@@ -11,17 +11,23 @@ export default function LoginForm() {
   const dispatch = useDispatch();
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+  const { error, isAuthenticated } = useSelector((state) => state.user);
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClick = async (e) => {
     e.preventDefault();
-    const data = await dispatch(login(loginEmail, loginPassword));
-    console.log('🤩 ~ file: LoginForm.js:19 ~ handleClick ~ data', data);
-    if (data?.success) {
-      console.log(data?.success);
+    dispatch(login(loginEmail, loginPassword));
+    navigate('/dashboard', { replace: true });
+  };
+  useEffect(() => {
+    if (error) {
+      console.log(error);
+    }
+    if (isAuthenticated && isAuthenticated === true) {
       navigate('/dashboard', { replace: true });
     }
-  };
+    dispatch(loadUser());
+  }, [isAuthenticated]);
   return (
     <>
       <form onSubmit={handleClick}>
